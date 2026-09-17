@@ -1,12 +1,18 @@
 # Samhita Lanka — Product Portfolio
 
-Public portfolio for Senior Product Manager opportunities across enterprise AI, enterprise SaaS, supply chain and manufacturing.
+Personal portfolio for Senior Product Management opportunities across enterprise AI, enterprise SaaS, supply chain, and manufacturing.
 
-## Files
+## Contents
 - `index.html` — portfolio homepage
 - `styles.css` — shared visual system
-- `resume.html` — print-friendly web resume (use Print / Save as PDF)
-- `projects/cost-investigation.html` — CostLens flagship case study + interactive synthetic demo
+- `resume.html` — print-friendly web resume
+- `cost-investigation.html` — CostLens product case study and interactive prototype
 
-## Public-safe rule
-Do not add Oracle internal documents, screenshots, source code, prompts, datasets, customer information, confidential architecture, or internal recordings. The CostLens project is intentionally based on synthetic data and independently written public artifacts.
+## Featured project
+**CostLens** is a manufacturing cost investigation copilot focused on helping cost and manufacturing analysts understand unexpected variances, trace contributing factors, and decide what to check next.
+
+## Built with
+HTML · CSS · JavaScript · Product design · AI/agent concepts
+
+## Contact
+LinkedIn: https://linkedin.com/in/samhita-lanka
