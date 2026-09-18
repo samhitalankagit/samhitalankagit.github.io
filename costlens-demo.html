@@ -3,177 +3,157 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CostLens — Interactive Prototype | Samhita Lanka</title>
-<meta name="description" content="CostLens interactive prototype — manufacturing cost intelligence and explainability.">
+<title>CostLens — Manufacturing Intelligence | Samhita Lanka</title>
+<meta name="description" content="CostLens — manufacturing cost intelligence and explainability.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#18211d;--muted:#65716b;--paper:#f6f4ee;--card:#fffdf8;--line:#dcd8cd;--accent:#586d5a;--warm:#b76f4d;--good:#4d7659;--shadow:0 16px 40px rgba(33,40,35,.07)}
+:root{--ink:#18211d;--muted:#65716b;--paper:#f6f4ee;--card:#fffdf8;--line:#dcd8cd;--accent:#586d5a;--warm:#b76f4d;--soft:#faf8f2;--shadow:0 18px 44px rgba(33,40,35,.07)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans",sans-serif;line-height:1.55}
-a{color:inherit;text-decoration:none}.nav{max-width:1180px;margin:auto;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:rgba(246,244,238,.92);backdrop-filter:blur(10px);z-index:10}.brand{font-family:"Playfair Display",serif;font-weight:700;font-size:1.25rem}.nav nav{display:flex;gap:18px;align-items:center;font-size:.9rem}.nav-cta{border:1px solid var(--ink);padding:8px 14px;border-radius:999px}
-main{max-width:1180px;margin:auto;padding:48px 24px 80px}.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.7rem;font-weight:700;color:var(--accent)}h1,h2,h3{font-family:"Playfair Display",serif;line-height:1.08;margin:0}h1{font-size:clamp(2.8rem,6vw,5rem);margin-top:10px}.lede{max-width:760px;color:var(--muted);font-size:1.08rem;margin:18px 0 0}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.btn{border:1px solid var(--ink);padding:10px 16px;border-radius:999px;font-weight:700}.btn.primary{background:var(--ink);color:#fff}
-.demo-shell{margin-top:40px;background:var(--card);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);overflow:hidden}.demo-head{padding:24px 26px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.demo-head h2{font-size:2rem}.status{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);padding:7px 10px;border-radius:999px;font-size:.75rem;color:var(--muted);white-space:nowrap}.dot{width:7px;height:7px;border-radius:50%;background:var(--good)}
-.demo-grid{display:grid;grid-template-columns:280px 1fr;min-height:610px}.sidebar{border-right:1px solid var(--line);padding:22px;background:#faf8f2}.side-label{text-transform:uppercase;letter-spacing:.1em;font-size:.68rem;font-weight:700;color:var(--muted);margin-bottom:10px}.scenario{width:100%;text-align:left;border:1px solid var(--line);background:#fffdf8;padding:13px;border-radius:14px;margin-bottom:10px;cursor:pointer;font:inherit;color:var(--ink)}.scenario.active{border-color:var(--ink);box-shadow:inset 3px 0 0 var(--accent)}.scenario strong{display:block;margin-bottom:3px}.scenario span{font-size:.78rem;color:var(--muted)}
-.content{padding:24px;display:flex;flex-direction:column;gap:18px}.question-row{display:flex;gap:10px}.question-row input{flex:1;border:1px solid var(--line);border-radius:14px;padding:14px 16px;font:inherit;background:#fff}.question-row button{border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:14px;padding:0 18px;font-weight:700;cursor:pointer}.suggestions{display:flex;gap:8px;flex-wrap:wrap}.suggestion{border:1px solid var(--line);background:#faf8f2;border-radius:999px;padding:7px 10px;font-size:.78rem;cursor:pointer}
-.answer{border:1px solid var(--line);border-radius:18px;overflow:hidden}.answer-top{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:15px}.answer-top strong{font-size:1rem}.confidence{font-size:.74rem;color:var(--accent);font-weight:700}.answer-body{padding:18px}.summary{font-size:1.02rem;margin:0 0 18px}.evidence-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.evidence{background:#faf8f2;border:1px solid var(--line);border-radius:14px;padding:13px}.evidence .label{text-transform:uppercase;letter-spacing:.08em;font-size:.65rem;font-weight:700;color:var(--warm)}.evidence strong{display:block;margin:5px 0 2px}.evidence p{font-size:.78rem;color:var(--muted);margin:0}
-.breakdown{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.panel{border:1px solid var(--line);border-radius:18px;padding:18px}.panel h3{font-size:1.15rem;margin-bottom:14px}.bar{margin:11px 0}.bar-head{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:5px}.track{height:9px;background:#ece9df;border-radius:99px;overflow:hidden}.fill{height:100%;background:var(--accent);border-radius:99px}.note{font-size:.78rem;color:var(--muted);margin-top:12px}.next{margin-top:14px;padding:13px;border-left:3px solid var(--warm);background:#faf8f2;font-size:.86rem}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.kpi{border:1px solid var(--line);border-radius:14px;padding:14px}.kpi small{display:block;color:var(--muted);font-size:.72rem}.kpi strong{display:block;font-family:"Playfair Display",serif;font-size:1.7rem;margin-top:2px}
+a{color:inherit;text-decoration:none}.nav{max-width:1180px;margin:auto;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:rgba(246,244,238,.93);backdrop-filter:blur(10px);z-index:10}.brand{font-family:"Playfair Display",serif;font-weight:700;font-size:1.25rem}.nav nav{display:flex;gap:18px;align-items:center;font-size:.9rem}.nav-cta{border:1px solid var(--ink);padding:8px 14px;border-radius:999px}
+main{max-width:1180px;margin:auto;padding:50px 24px 80px}.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.7rem;font-weight:700;color:var(--accent)}h1,h2,h3{font-family:"Playfair Display",serif;line-height:1.08;margin:0}h1{font-size:clamp(2.8rem,6vw,5rem);margin-top:10px}.lede{max-width:810px;color:var(--muted);font-size:1.08rem;margin:18px 0 0}.thesis{margin-top:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.thesis-card{border:1px solid var(--line);border-radius:16px;padding:16px;background:var(--card)}.thesis-card strong{display:block;font-size:1.1rem;margin-bottom:3px}.thesis-card span{color:var(--muted);font-size:.82rem}
+.demo-shell{margin-top:40px;background:var(--card);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);overflow:hidden}.demo-head{padding:24px 26px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.demo-head h2{font-size:2rem}.status{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);padding:7px 10px;border-radius:999px;font-size:.75rem;color:var(--muted);white-space:nowrap}.dot{width:7px;height:7px;border-radius:50%;background:#4d7659}
+.modebar{display:flex;gap:8px;flex-wrap:wrap;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--soft)}.mode{border:1px solid var(--line);background:#fffdf8;border-radius:999px;padding:9px 13px;font:inherit;font-weight:700;font-size:.8rem;cursor:pointer;color:var(--ink)}.mode.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.demo-grid{display:grid;grid-template-columns:270px 1fr;min-height:650px}.sidebar{border-right:1px solid var(--line);padding:20px;background:#faf8f2}.side-label{text-transform:uppercase;letter-spacing:.1em;font-size:.68rem;font-weight:700;color:var(--muted);margin-bottom:10px}.scenario{width:100%;text-align:left;border:1px solid var(--line);background:#fffdf8;padding:13px;border-radius:14px;margin-bottom:10px;cursor:pointer;font:inherit;color:var(--ink)}.scenario.active{border-color:var(--ink);box-shadow:inset 3px 0 0 var(--accent)}.scenario strong{display:block;margin-bottom:3px}.scenario span{font-size:.78rem;color:var(--muted)}.sidebar p{font-size:.8rem;color:var(--muted)}
+.content{padding:24px;display:flex;flex-direction:column;gap:16px}.question-row{display:flex;gap:10px}.question-row input{flex:1;border:1px solid var(--line);border-radius:14px;padding:14px 16px;font:inherit;background:#fff}.question-row button{border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:14px;padding:0 18px;font-weight:700;cursor:pointer}.suggestions{display:flex;gap:8px;flex-wrap:wrap}.suggestion{border:1px solid var(--line);background:#faf8f2;border-radius:999px;padding:7px 10px;font-size:.78rem;cursor:pointer}
+.card{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}.card-head{padding:15px 17px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center}.card-head strong{font-size:1rem}.badge{font-size:.7rem;color:var(--accent);font-weight:700}.card-body{padding:17px}.summary{font-size:1rem;margin:0 0 16px}.evidence-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.evidence{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:12px}.evidence .label{text-transform:uppercase;letter-spacing:.08em;font-size:.64rem;font-weight:700;color:var(--warm)}.evidence strong{display:block;margin:4px 0 2px}.evidence p{font-size:.76rem;color:var(--muted);margin:0}
+.two{display:grid;grid-template-columns:1.05fr .95fr;gap:14px}.panel{border:1px solid var(--line);border-radius:18px;padding:17px;background:#fff}.panel h3{font-size:1.14rem;margin-bottom:13px}.bar{margin:10px 0}.barhead{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:5px}.track{height:9px;background:#ece9df;border-radius:99px;overflow:hidden}.fill{height:100%;background:var(--accent);border-radius:99px}.note{font-size:.76rem;color:var(--muted);margin-top:12px}.next{padding:12px;border-left:3px solid var(--warm);background:var(--soft);font-size:.83rem}.action{margin-top:12px;border:1px dashed var(--line);border-radius:14px;padding:12px;background:var(--soft)}.action strong{display:block;margin-bottom:3px}.action span{font-size:.78rem;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.kpi{border:1px solid var(--line);border-radius:13px;padding:12px}.kpi small{display:block;color:var(--muted);font-size:.68rem}.kpi strong{display:block;font-family:"Playfair Display",serif;font-size:1.45rem;margin-top:2px}.table{width:100%;border-collapse:collapse;font-size:.78rem}.table th,.table td{text-align:left;border-bottom:1px solid var(--line);padding:10px 7px}.table th{font-size:.69rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
 .footer{max-width:1180px;margin:auto;padding:20px 24px 40px;color:var(--muted);font-size:.82rem;display:flex;justify-content:space-between;border-top:1px solid var(--line)}
-@media(max-width:880px){.demo-grid{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid var(--line)}.evidence-grid,.kpis{grid-template-columns:repeat(2,1fr)}.breakdown{grid-template-columns:1fr}}
-@media(max-width:600px){main{padding:34px 16px 60px}.nav{padding:16px}.demo-head{padding:18px}.content{padding:16px}.question-row{flex-direction:column}.question-row button{height:46px}.evidence-grid,.kpis{grid-template-columns:1fr}.footer{padding:18px 16px;display:block}}
+@media(max-width:900px){.demo-grid{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid var(--line)}.evidence-grid,.kpis,.thesis{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+@media(max-width:620px){main{padding:34px 16px 60px}.nav{padding:16px}.nav nav a:not(.nav-cta){display:none}.demo-head{padding:18px}.content{padding:16px}.question-row{flex-direction:column}.question-row button{height:46px}.evidence-grid,.kpis,.thesis{grid-template-columns:1fr}.footer{padding:18px 16px;display:block}}
 </style>
 </head>
 <body>
-<header class="nav">
-  <a class="brand" href="index.html">Samhita Lanka</a>
-  <nav><a href="index.html#work">Work</a><a href="cost-investigation.html">CostLens</a><a href="resume.html">Resume</a><a class="nav-cta" href="mailto:samhita510@gmail.com">Contact</a></nav>
-</header>
+<header class="nav"><a class="brand" href="index.html">Samhita Lanka</a><nav><a href="index.html#work">Work</a><a href="cost-investigation.html">CostLens</a><a href="resume.html">Resume</a><a class="nav-cta" href="mailto:samhita510@gmail.com">Contact</a></nav></header>
 
 <main>
-  <section>
-    <div class="eyebrow">COSTLENS · INTERACTIVE PROTOTYPE</div>
-    <h1>Ask what happened. See why.</h1>
-    <p class="lede">A first working cut of CostLens — an investigation experience for manufacturing teams to understand work-order cost, WIP, and product-cost movement.</p>
-    <div class="hero-actions">
-      <a class="btn primary" href="#demo">Try the prototype</a>
-      <a class="btn" href="cost-investigation.html">Read the product thinking</a>
-    </div>
-  </section>
+<section>
+<div class="eyebrow">COSTLENS · MANUFACTURING INTELLIGENCE</div>
+<h1>ERP tells you what happened. CostLens explains why.</h1>
+<p class="lede">A product concept and interactive prototype for turning manufacturing transactions into an understandable cost story — then helping teams compare alternatives and decide what to do next.</p>
+<div class="thesis">
+<div class="thesis-card"><strong>Explain</strong><span>Trace a result back to the drivers and evidence behind it.</span></div>
+<div class="thesis-card"><strong>Compare</strong><span>See how plants, work centers and periods differ before making a decision.</span></div>
+<div class="thesis-card"><strong>Act</strong><span>Surface the next check or action when the data supports it.</span></div>
+</div>
+</section>
 
-  <section class="demo-shell" id="demo">
-    <div class="demo-head">
-      <div><div class="eyebrow">LIVE EXPERIENCE</div><h2>CostLens</h2><p style="margin:8px 0 0;color:var(--muted)">Choose a question or ask your own.</p></div>
-      <div class="status"><span class="dot"></span>Interactive prototype</div>
-    </div>
-    <div class="demo-grid">
-      <aside class="sidebar">
-        <div class="side-label">Investigation</div>
-        <button class="scenario active" data-key="wo"><strong>Work-order cost</strong><span>Investigate variance drivers</span></button>
-        <button class="scenario" data-key="wip"><strong>WIP intelligence</strong><span>Understand what's accumulating</span></button>
-        <button class="scenario" data-key="product"><strong>Product-cost trend</strong><span>Explain movement over time</span></button>
-        <div style="margin-top:24px" class="side-label">Product idea</div>
-        <p style="font-size:.82rem;color:var(--muted);margin:0">Calculate the metric, trace the drivers, then explain what changed and what to check next.</p>
-      </aside>
-
-      <section class="content">
-        <div class="question-row">
-          <input id="question" value="Why is WO-10482 18% above expected cost?" aria-label="Ask CostLens a question">
-          <button id="ask">Investigate</button>
-        </div>
-        <div class="suggestions">
-          <button class="suggestion">Why is WO-10482 18% above expected cost?</button>
-          <button class="suggestion">Why did WIP increase this month?</button>
-          <button class="suggestion">How has Product A cost changed?</button>
-        </div>
-
-        <div class="answer">
-          <div class="answer-top"><strong id="answerTitle">Investigation summary</strong><span class="confidence" id="confidence">Evidence coverage: high</span></div>
-          <div class="answer-body">
-            <p class="summary" id="summary"></p>
-            <div class="evidence-grid" id="evidence"></div>
-          </div>
-        </div>
-
-        <div class="breakdown">
-          <div class="panel">
-            <h3 id="breakdownTitle">Variance breakdown</h3>
-            <div id="bars"></div>
-            <p class="note" id="trendNote"></p>
-          </div>
-          <div class="panel">
-            <h3>What to check next</h3>
-            <div class="next" id="next"></div>
-            <div style="margin-top:16px" class="kpis" id="kpis"></div>
-          </div>
-        </div>
-      </section>
-    </div>
-  </section>
+<section class="demo-shell" id="demo">
+<div class="demo-head"><div><div class="eyebrow">INTERACTIVE PROTOTYPE</div><h2>CostLens</h2><p style="margin:8px 0 0;color:var(--muted)">Explore the product through connected manufacturing data.</p></div><div class="status"><span class="dot"></span>Data-driven analysis</div></div>
+<div class="modebar">
+<button class="mode active" data-mode="investigate">Investigate</button><button class="mode" data-mode="compare">Compare</button><button class="mode" data-mode="trend">Trends</button><button class="mode" data-mode="act">Act</button>
+</div>
+<div class="demo-grid">
+<aside class="sidebar">
+<div class="side-label">Questions</div>
+<button class="scenario active" data-key="wo"><strong>Work-order cost</strong><span>Why is cost above expectation?</span></button>
+<button class="scenario" data-key="wip"><strong>WIP intelligence</strong><span>What is accumulating and why?</span></button>
+<button class="scenario" data-key="plant"><strong>Plant comparison</strong><span>Where is this product cheaper to make?</span></button>
+<button class="scenario" data-key="workcenter"><strong>Work-center view</strong><span>How is a work center performing?</span></button>
+<button class="scenario" data-key="trend"><strong>Product-cost trend</strong><span>What changed over time?</span></button>
+<div style="margin-top:22px" class="side-label">Underlying data</div>
+<p>Work orders, components, material movements, labor, machine time, overhead, WIP, status, plant and period-level cost data feed the analysis.</p>
+</aside>
+<section class="content">
+<div class="question-row"><input id="question" value="Why is WO-10482 18% above expected cost?" aria-label="Ask CostLens a question"><button id="ask">Investigate</button></div>
+<div class="suggestions" id="suggestions"></div>
+<div id="result"></div>
+</section></div>
+</section>
 </main>
-
 <footer class="footer"><span>© Samhita Lanka</span><div><a href="index.html">Portfolio</a> · <a href="https://linkedin.com/in/samhita-lanka" target="_blank" rel="noreferrer">LinkedIn</a></div></footer>
 
 <script>
-const scenarios = {
-  wo: {
-    title: "Why is WO-10482 18% above expected cost?",
-    summary: "WO-10482 is 18% above expected cost, with material accounting for the largest share of the variance. The remaining increase is concentrated in overhead and labor, pointing the investigation toward consumption, pricing, and production-efficiency drivers rather than treating the variance as one unexplained number.",
-    evidence: [
-      ["Observed","Actual cost","$118K","vs. $100K expected"],
-      ["Derived","Variance","+18%","+$18K total"],
-      ["Driver","Material","+9.5K","53% of variance"],
-      ["Status","Work order","Open","Partially complete"]
-    ],
-    bars: [["Material",53],["Overhead",29],["Labor",11],["Machine",7]],
-    note: "The largest contribution is material. A useful next step is to separate quantity movement from price movement before deciding on a root cause.",
-    next: "Review material issue quantities, component price changes, and scrap transactions for WO-10482; then compare the affected operations with expected consumption.",
-    kpis: [["Expected","$100K"],["Actual","$118K"],["Variance","+18%"],["WIP","$84K"]]
-  },
-  wip: {
-    title: "Why did WIP increase this month?",
-    summary: "Plant 101 WIP increased from $1.96M to $2.41M, a 23% month-over-month increase. The movement is concentrated in a small group of open work orders, with $655K of WIP across the three largest contributors.",
-    evidence: [
-      ["Observed","Current WIP","$2.41M","Plant 101"],
-      ["Derived","MoM change","+23%","+$450K"],
-      ["Driver","Top 3 WOs","$655K","27% of WIP"],
-      ["Pattern","Aging","Elevated","Several open WOs"]
-    ],
-    bars: [["WO-10482",43],["WO-10503",32],["WO-10527",25]],
-    note: "The pattern suggests concentration rather than a plant-wide shift. Aging and incomplete production should be investigated before attributing the increase to volume alone.",
-    next: "Check work-order aging, completion status, remaining operations, and the timing of material issues versus production completion for the top contributors.",
-    kpis: [["Prior WIP","$1.96M"],["Current WIP","$2.41M"],["Change","+23%"],["Top 3","$655K"]]
-  },
-  product: {
-    title: "How has Product A cost changed?",
-    summary: "Product A unit manufacturing cost increased from $42 to $49 across the last four periods. Material is the largest driver of the increase, followed by overhead; labor and scrap contribute smaller movements.",
-    evidence: [
-      ["Observed","Latest cost","$49/unit","Product A"],
-      ["Derived","Change","+16.7%","vs. $42 baseline"],
-      ["Driver","Material","+4.1","largest impact"],
-      ["Trend","4 periods","$42 → $49","steady increase"]
-    ],
-    bars: [["Material",58],["Overhead",25],["Labor",10],["Scrap/yield",7]],
-    note: "The trend is persistent across periods, so the investigation should look for repeated changes in input prices, allocation, and yield rather than a one-off transaction.",
-    next: "Compare material purchase/issue prices, overhead rates, and yield/scrap by period; isolate whether the movement is mix-driven or unit-cost driven.",
-    kpis: [["Baseline","$42"],["Latest","$49"],["Change","+16.7%"],["Periods","4"]]
-  }
-};
+const WO=[
+{id:"WO-10482",product:"Product A",plant:"Plant 101",workCenter:"WC-14",status:"Open",expected:{material:50000,labor:18000,machine:12000,overhead:20000},actual:{material:59500,labor:20000,machine:12600,overhead:25900},wip:84000},
+{id:"WO-10503",product:"Product A",plant:"Plant 101",workCenter:"WC-12",status:"Open",wip:198000},
+{id:"WO-10527",product:"Product A",plant:"Plant 101",workCenter:"WC-14",status:"Open",wip:373000},
+{id:"WO-10610",product:"Product A",plant:"Plant 202",workCenter:"WC-22",status:"Released",wip:92000},
+{id:"WO-10624",product:"Product A",plant:"Plant 202",workCenter:"WC-22",status:"Completed",wip:0}
+];
+const PERIODS=[
+{period:"Jun",unitCost:42,material:20.6,labor:8.2,machine:5.1,overhead:7.1,wip:1850000},
+{period:"Jul",unitCost:44.5,material:22.1,labor:8.4,machine:5.2,overhead:8.8,wip:1910000},
+{period:"Aug",unitCost:46.8,material:24,labor:8.6,machine:5.4,overhead:8.8,wip:1960000},
+{period:"Sep",unitCost:49,material:24.7,labor:9,machine:5.6,overhead:9.7,wip:2410000}
+];
+const PLANTS=[
+{plant:"Plant 101",material:28.4,labor:9.1,machine:7,overhead:6.7,capacity:72,scrap:3.1},
+{plant:"Plant 202",material:25.8,labor:9.5,machine:6.2,overhead:5.6,capacity:61,scrap:1.7}
+];
+const WC={expected:{machine:100,scrap:2.4},actual:{machine:108.1,scrap:3.8},affected:7,total:31};
+const LABEL={material:"Material",labor:"Labor",machine:"Machine",overhead:"Overhead"};
+const add=o=>Object.values(o).reduce((a,b)=>a+b,0);
+const money=n=>"$"+(n/1000).toFixed(0)+"K";
+const pct=n=>(n>=0?"+":"")+n.toFixed(1)+"%";
+const change=(a,b)=>(a-b)/b*100;
 
-function render(key, questionText) {
-  const s = scenarios[key];
-  document.getElementById('question').value = questionText || s.title;
-  document.getElementById('answerTitle').textContent = s.title;
-  document.getElementById('summary').textContent = s.summary;
-  document.getElementById('confidence').textContent = "Evidence coverage: high";
-  document.getElementById('evidence').innerHTML = s.evidence.map(([label,head,value,sub]) =>
-    `<div class="evidence"><div class="label">${label}</div><strong>${head}</strong><p>${value} · ${sub}</p></div>`).join('');
-  document.getElementById('breakdownTitle').textContent =
-    key === 'wo' ? 'Variance breakdown' : key === 'wip' ? 'WIP concentration' : 'Cost-driver contribution';
-  document.getElementById('bars').innerHTML = s.bars.map(([label,pct]) =>
-    `<div class="bar"><div class="bar-head"><span>${label}</span><strong>${pct}%</strong></div><div class="track"><div class="fill" style="width:${pct}%"></div></div></div>`).join('');
-  document.getElementById('trendNote').textContent = s.note;
-  document.getElementById('next').textContent = s.next;
-  document.getElementById('kpis').innerHTML = s.kpis.map(([label,val]) =>
-    `<div class="kpi"><small>${label}</small><strong>${val}</strong></div>`).join('');
-  document.querySelectorAll('.scenario').forEach(b => b.classList.toggle('active', b.dataset.key === key));
+function analyzeWO(){
+ const w=WO[0],e=add(w.expected),a=add(w.actual);
+ const drivers=Object.keys(w.expected).map(k=>({label:LABEL[k],delta:w.actual[k]-w.expected[k]}));
+ const pos=drivers.reduce((x,d)=>x+Math.max(d.delta,0),0);
+ drivers.forEach(d=>d.share=pos?Math.max(d.delta,0)/pos*100:0);
+ return {w,e,a,varPct:change(a,e),drivers};
+}
+function analyzeWIP(){
+ const prior=PERIODS[2].wip,current=PERIODS[3].wip;
+ const open=WO.filter(w=>w.status==="Open").sort((a,b)=>b.wip-a.wip),top=open.slice(0,3),top3=top.reduce((x,w)=>x+w.wip,0);
+ return {prior,current,delta:change(current,prior),open,top,top3};
+}
+function analyzePlants(){
+ return PLANTS.map(p=>({...p,unit:p.material+p.labor+p.machine+p.overhead})).sort((a,b)=>a.unit-b.unit);
+}
+function analyzeTrend(){
+ const f=PERIODS[0],l=PERIODS[3],d={material:l.material-f.material,labor:l.labor-f.labor,machine:l.machine-f.machine,overhead:l.overhead-f.overhead},total=add(d);
+ return {f,l,pct:change(l.unitCost,f.unitCost),drivers:Object.entries(d).map(([k,v])=>({label:LABEL[k],share:v/total*100,delta:v}))};
+}
+function analyzeWC(){return {machine:change(WC.actual.machine,WC.expected.machine),scrap:WC.actual.scrap-WC.expected.scrap};}
+
+const ev=(items)=>'<div class="evidence-grid">'+items.map(x=>'<div class="evidence"><div class="label">'+x[0]+'</div><strong>'+x[1]+'</strong><p>'+x[2]+' · '+x[3]+'</p></div>').join('')+'</div>';
+const bars=items=>items.map(x=>'<div class="bar"><div class="barhead"><span>'+x[0]+'</span><strong>'+x[1].toFixed(0)+'%</strong></div><div class="track"><div class="fill" style="width:'+Math.max(0,Math.min(100,x[1]))+'%"></div></div></div>').join('');
+const kp=items=>'<div class="kpis">'+items.map(x=>'<div class="kpi"><small>'+x[0]+'</small><strong>'+x[1]+'</strong></div>').join('')+'</div>';
+const wrap=(title,summary,badge,body)=>'<div class="card"><div class="card-head"><strong>'+title+'</strong><span class="badge">'+badge+'</span></div><div class="card-body"><p class="summary">'+summary+'</p>'+body+'</div></div>';
+
+function renderWO(){
+ const a=analyzeWO(),d=[...a.drivers].sort((x,y)=>y.share-x.share),s=a.w.id+' is '+a.varPct.toFixed(1)+'% above expected cost. '+d[0].label+' is the largest contributor at '+money(d[0].delta)+'.';
+ return wrap("Work-order investigation",s,"Evidence-linked analysis",ev([["Observed","Actual cost",money(a.a),"vs. "+money(a.e)+" expected"],["Derived","Variance",pct(a.varPct),money(a.a-a.e)],["Driver",d[0].label,money(d[0].delta),d[0].share.toFixed(0)+"% of positive variance"],["Status","Work order",a.w.status,a.w.plant]])+
+ '<div class="two"><div class="panel"><h3>Variance contribution</h3>'+bars(d.map(x=>[x.label,x.share]))+'<p class="note">The percentages are calculated from the underlying expected and actual component values.</p></div><div class="panel"><h3>From explanation to action</h3><div class="next">Separate '+d[0].label.toLowerCase()+' movement into quantity and price effects, then inspect affected transactions and scrap/yield.</div><div class="action"><strong>Potential action</strong><span>Surface qualified lower-cost material alternatives only after checking availability, quality constraints and cost impact.</span></div>'+kp([["Expected",money(a.e)],["Actual",money(a.a)],["Variance",pct(a.varPct)],["WIP",money(a.w.wip)]])+'</div></div>');
+}
+function renderWIP(){
+ const a=analyzeWIP(),con=a.top.map(w=>[w.id,w.wip/a.top3*100]);
+ return wrap("WIP investigation","Plant 101 WIP increased "+a.delta.toFixed(1)+"% month-over-month, with "+money(a.top3)+" across the three largest open work orders.","Trend + driver analysis",ev([["Observed","Current WIP",money(a.current),"latest period"],["Derived","MoM change",pct(a.delta),money(a.current-a.prior)],["Driver","Top 3 WOs",money(a.top3),"largest open contributors"],["Pattern","Status","Open","concentrated WIP"]])+
+ '<div class="two"><div class="panel"><h3>WIP concentration</h3>'+bars(con)+'<p class="note">Concentration separates a plant-wide movement from a small number of orders.</p></div><div class="panel"><h3>From explanation to action</h3><div class="next">Review work-order age, remaining operations and timing of material issues versus production completion.</div><div class="action"><strong>Potential action</strong><span>Flag aging WIP where accumulated cost is high relative to remaining production.</span></div>'+kp([["Prior WIP",money(a.prior)],["Current WIP",money(a.current)],["Change",pct(a.delta)],["Open WOs",a.open.length]])+'</div></div>');
+}
+function renderPlant(){
+ const a=analyzePlants(),b=a[0],o=a[1],save=(o.unit-b.unit)/o.unit*100,rows=a.map(p=>'<tr><td><b>'+p.plant+'</b></td><td>$'+p.unit.toFixed(2)+'</td><td>'+p.capacity+'%</td><td>'+p.scrap+'%</td></tr>').join('');
+ return wrap("Plant comparison","For Product A, "+b.plant+" has the lower modeled unit manufacturing cost at $"+b.unit.toFixed(2)+", "+save.toFixed(1)+"% below "+o.plant+".","Decision analysis",ev([["Lower cost",b.plant,"$"+b.unit.toFixed(2)+"/unit","modeled"],["Higher cost",o.plant,"$"+o.unit.toFixed(2)+"/unit","modeled"],["Difference","Unit cost",save.toFixed(1)+"% lower","$"+(o.unit-b.unit).toFixed(2)],["Constraint","Capacity / scrap",b.capacity+"% / "+b.scrap+"%","check before shifting"]])+
+ '<div class="panel"><h3>Side-by-side view</h3><table class="table"><thead><tr><th>Plant</th><th>Unit cost</th><th>Capacity</th><th>Scrap</th></tr></thead><tbody>'+rows+'</tbody></table><p class="note">Cost is one decision variable; capacity, scrap and qualification still matter.</p></div><div class="panel" style="margin-top:14px"><h3>Potential action</h3><div class="next">Consider '+b.plant+' for the next comparable run if capacity and qualification checks pass.</div></div>');
+}
+function renderWC(){
+ const a=analyzeWC();
+ return wrap("Work-center analysis","WC-14 shows a "+a.machine.toFixed(1)+"% increase in machine time versus expected and scrap of "+WC.actual.scrap.toFixed(1)+"% versus "+WC.expected.scrap.toFixed(1)+"% expected.","Operational analysis",ev([["Observed","Machine time",WC.actual.machine+" min / unit","vs. "+WC.expected.machine],["Derived","Machine-time variance",pct(a.machine),"unfavorable"],["Driver","Scrap",WC.actual.scrap.toFixed(1)+"%","vs. "+WC.expected.scrap.toFixed(1)+"%"],["Scope","Affected WOs",WC.affected, "of "+WC.total]])+
+ '<div class="two"><div class="panel"><h3>Signal</h3>'+bars([["Machine time",51],["Scrap",29],["Labor",12],["Other",8]])+'<p class="note">Concentration suggests a shared process, product, shift or machine pattern.</p></div><div class="panel"><h3>From explanation to action</h3><div class="next">Compare cycle time and scrap by operation for affected orders and look for a common pattern.</div><div class="action"><strong>Potential action</strong><span>Route a recurring process issue to operations review and monitor the work center after the change.</span></div></div></div>');
+}
+function renderTrend(){
+ const a=analyzeTrend(),d=[...a.drivers].sort((x,y)=>y.share-x.share);
+ return wrap("Product-cost trend","Product A unit manufacturing cost increased from $"+a.f.unitCost.toFixed(1)+" to $"+a.l.unitCost.toFixed(1)+" over four periods, a "+a.pct.toFixed(1)+"% increase. "+d[0].label+" explains the largest share of the movement.","Trend analysis",ev([["Observed","Latest cost","$"+a.l.unitCost.toFixed(1)+"/unit","Product A"],["Derived","Four-period change",pct(a.pct),"persistent movement"],["Driver",d[0].label,"+$"+d[0].delta.toFixed(1)+"/unit","largest contribution"],["Context","WIP",money(a.l.wip),"latest period"]])+
+ '<div class="two"><div class="panel"><h3>Driver contribution</h3>'+bars(d.map(x=>[x.label,x.share]))+'<p class="note">Persistent movement points toward repeated input, overhead or yield changes.</p></div><div class="panel"><h3>From explanation to action</h3><div class="next">Compare input prices, overhead rates, mix and yield across periods to isolate the driver.</div><div class="action"><strong>Potential action</strong><span>Create a watchlist for persistent cost movement and alert when a driver crosses a threshold.</span></div>'+kp([["Jun","$"+a.f.unitCost.toFixed(1)],["Sep","$"+a.l.unitCost.toFixed(1)],["Change",pct(a.pct)],["WIP",money(a.l.wip)]])+'</div></div>');
 }
 
-function inferQuestion(q) {
-  const x = q.toLowerCase();
-  if (x.includes('wip')) return 'wip';
-  if (x.includes('product') || x.includes('unit cost') || x.includes('changed over') || x.includes('trend')) return 'product';
-  return 'wo';
-}
-
-document.querySelectorAll('.scenario').forEach(btn => btn.addEventListener('click', () => render(btn.dataset.key)));
-document.querySelectorAll('.suggestion').forEach(btn => btn.addEventListener('click', () => render(inferQuestion(btn.textContent), btn.textContent)));
-document.getElementById('ask').addEventListener('click', () => {
-  const q = document.getElementById('question').value.trim();
-  render(inferQuestion(q), q || undefined);
-});
-document.getElementById('question').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('ask').click(); });
-render('wo');
+let currentMode="investigate";
+const fns={wo:renderWO,wip:renderWIP,plant:renderPlant,workcenter:renderWC,trend:renderTrend};
+const qs={wo:["Why is WO-10482 above expected cost?","What is driving the variance?","What should I check next?"],wip:["Why did WIP increase this month?","Which work orders are driving WIP?","What needs attention before close?"],plant:["Which plant is cheaper for Product A?","Compare Plant 101 vs Plant 202","Where should the next run be produced?"],workcenter:["How is Work Center 14 performing?","Which WOs are driving the variance?","What should operations investigate?"],trend:["How has Product A cost changed?","What changed over the last four periods?","Is the increase persistent?"]};
+function setModeButton(){document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b.dataset.mode===(currentMode==="act"?"act":currentMode)))}
+function buildSuggestions(k){document.getElementById("suggestions").innerHTML=qs[k].map(q=>'<button class="suggestion">'+q+'</button>').join('');document.querySelectorAll(".suggestion").forEach(b=>b.onclick=()=>route(b.textContent))}
+function render(k){document.getElementById("result").innerHTML=fns[k]();document.querySelectorAll(".scenario").forEach(b=>b.classList.toggle("active",b.dataset.key===k));setModeButton();buildSuggestions(k)}
+function route(q){const x=q.toLowerCase(),k=x.includes("plant")||x.includes("where")?"plant":x.includes("trend")||x.includes("changed")||x.includes("last four")?"trend":x.includes("wip")?"wip":x.includes("work center")?"workcenter":"wo";render(k)}
+document.querySelectorAll(".scenario").forEach(b=>b.onclick=()=>{currentMode="investigate";render(b.dataset.key);document.getElementById("question").value=qs[b.dataset.key][0]});
+document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{currentMode=b.dataset.mode;render(b.dataset.mode==="compare"?"plant":b.dataset.mode==="trend"?"trend":"wo")});
+document.getElementById("ask").onclick=()=>route(document.getElementById("question").value);
+document.getElementById("question").onkeydown=e=>{if(e.key==="Enter")document.getElementById("ask").click()};
+buildSuggestions("wo");render("wo");
 </script>
 </body>
 </html>
