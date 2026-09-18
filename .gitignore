@@ -1,0 +1,5 @@
+# Cloudflare / local development secrets
+costlens-api/.dev.vars*
+costlens-api/.env*
+node_modules/
+.wrangler/
