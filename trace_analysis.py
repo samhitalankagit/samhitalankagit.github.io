@@ -75,9 +75,37 @@ comparison = before_segment[["conversion_rate"]].rename(
 comparison["rate_change"] = (
     comparison["after_rate"] - comparison["before_rate"]
 )
-
 comparison = comparison.sort_values("rate_change")
 
-print("\n=== SEGMENTS WITH LARGEST CONVERSION DECLINES ===")
+# Calculate payment failure rates
+before_segment["failure_rate"] = (
+    before_segment["payment_failures"] / before_segment["sessions"]
+)
 
-print(comparison.head(10))
+after_segment["failure_rate"] = (
+    after_segment["payment_failures"] / after_segment["sessions"]
+)
+
+comparison["before_failure_rate"] = before_segment["failure_rate"]
+comparison["after_failure_rate"] = after_segment["failure_rate"]
+
+comparison["failure_rate_change"] = (
+    comparison["after_failure_rate"] - comparison["before_failure_rate"]
+)
+
+print("\n=== TRACE EVIDENCE ===")
+
+top_segment = comparison.index[0]
+
+print(f"\nLargest affected segment: {top_segment}")
+print(f"Conversion rate before: {comparison.iloc[0]['before_rate']:.2%}")
+print(f"Conversion rate after:  {comparison.iloc[0]['after_rate']:.2%}")
+print(f"Conversion change:     {comparison.iloc[0]['rate_change']:.2%}")
+
+print(f"\nPayment failure rate before: {comparison.iloc[0]['before_failure_rate']:.2%}")
+print(f"Payment failure rate after:  {comparison.iloc[0]['after_failure_rate']:.2%}")
+print(f"Payment failure change:      {comparison.iloc[0]['failure_rate_change']:.2%}")
+
+print("\nInterpretation:")
+print("The segment shows a large conversion decline alongside a large increase in payment failures.")
+print("This is evidence of an association, not proof of causation.")
