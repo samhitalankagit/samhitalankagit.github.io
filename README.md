@@ -1,118 +1,66 @@
-# Trace AI — Evidence-Backed Data Investigation
+# BidLens — AI Sourcing Copilot
 
-**Trace AI** is a lightweight AI investigation agent for data-heavy teams.
+A local Streamlit prototype for procurement analysts. The product journey is **prepare request → validate supplier responses → compare and simulate sourcing scenarios**.
 
-### The problem
+## What is implemented
 
-Dashboards are good at showing **what changed**.
+- Three connected screens, with a shared sourcing request and supplier-response dataset.
+- Requirement readiness checks and an optional LLM-assisted requirement review.
+- Five fictional source documents in Excel, PDF, scanned PNG, email and Word formats.
+- Deterministic extraction from each bundled document format; the scan uses Tesseract OCR when it can recover sufficient rows, otherwise the app uses a packaged synthetic OCR reference transcript and discloses that fallback.
+- A 30-item, five-supplier gold-standard dataset to test extracted values. Missing quotes remain missing; an ambiguous scan price remains unresolved.
+- Source excerpts and document locators for extracted quote fields, plus download links to the original synthetic documents.
+- A local SQLite database for request state, reviewed values and scenario history.
+- Currency and price-basis normalization using a visible illustrative USD/INR rate.
+- A constrained whole-line allocation optimizer, plus a separate user-defined quantity-split simulator across two suppliers, subject to quote availability, delivery and freight-data constraints.
+- A rule-based analyst query layer. If an OpenAI API key is configured, the LLM may interpret requirements, interpret a source excerpt as a *suggestion*, and route natural-language questions to deterministic tools. The LLM does not perform the final cost calculations.
+- Clarification email drafts that can be downloaded; no email is sent.
 
-But teams still spend significant time figuring out:
+## Important boundaries
 
-* Why did it change?
-* What evidence supports that explanation?
-* What should I investigate next?
+- Every supplier, price and source document is fictional.
+- This is a demonstration, not a production purchasing system.
+- The optimizer assigns whole line items to suppliers. A separate split simulator lets the analyst test a chosen percentage split across two suppliers, but does not optimize partial quantities. Supplier capacity, minimum order quantities, tax calculation, historical supplier performance and unconfirmed discounts are not modeled.
+- Unknown freight can be excluded from scenarios. Taxes and other charges absent from source documents are excluded and disclosed as limitations.
+- The USD/INR rate is an illustrative assumption, not a live FX quote.
+- The optional LLM integration requires a separate OpenAI API key and may incur API charges. A ChatGPT subscription does not automatically provide API credits. When enabled, the app sends the relevant requirement or selected source excerpt/question to the configured LLM provider. Do not use confidential supplier information unless authorized.
+- The scanned-image fallback transcript is packaged to make the synthetic demo reproducible on machines without a working OCR binary. The UI labels this fallback.
 
-Trace explores a simple workflow:
+## Run on Windows
 
-**Signal → Evidence → Hypothesis → Next Investigation**
+Open Command Prompt in this folder, then run:
 
-## Product hypothesis
+```bat
+python -m venv .venv
+.venv\Scripts\activate
+python -m pip install -r requirements.txt
+python -m streamlit run app.py
+```
 
-> Can an AI agent reduce the distance between noticing a business signal and forming a grounded, testable explanation?
+The first run creates `data/bidlens.db`. It persists local edits and scenarios. Delete that file only if you intentionally want to reset the local demo database; it will be recreated from the bundled source documents.
 
-## V0
+## Optional LLM setup
 
-Given a structured dataset and a metric change, Trace should:
+Set `OPENAI_API_KEY` in your local environment before starting Streamlit, or configure it in `.streamlit/secrets.toml` (keep that file out of Git). Optionally set `BIDLENS_MODEL`. Without an API key, the app uses the deterministic local fallback for requirement checks and question routing.
 
-1. Identify what changed.
-2. Break the change down by segment.
-3. Surface supporting evidence.
-4. Generate a clearly labelled hypothesis.
-5. State what is **not established**.
-6. Recommend the next investigation.
+## Tests
 
-### Product contract
+```bat
+python -m unittest discover -s tests -v
+```
 
-**Code calculates. AI interprets. The user decides.**
+The tests compare extracted quote fields against `data/gold_standard_quotes.csv`, check missing/ambiguous handling, validate normalization, and run a constrained allocation scenario.
 
-The LLM should not calculate business metrics or invent evidence.
+## Project structure
 
-## Example
+- `app.py` — Streamlit UI
+- `bidlens_engine.py` — extraction, validation, persistence, normalization, scenario optimizer and analyst tools
+- `generate_demo_data.py` — reproducible synthetic source-document generator
+- `data/source_documents/` — five fictional supplier documents and the OCR reference transcript
+- `data/rfx_items.csv` — 30 requested line items
+- `data/gold_standard_quotes.csv` — expected values for extraction tests
+- `tests/test_engine.py` — automated checks
 
-**Signal**
-Conversion fell 12%.
+## GitHub safety
 
-**Evidence**
-
-* Mobile conversion fell 19%.
-* New-user conversion fell 23%.
-* Payment failures increased from 2.1% to 5.8%.
-
-**Hypothesis**
-Increased payment failures may be contributing to the decline among mobile new users.
-
-**Not established**
-The available data does not prove payment failures caused the decline.
-
-**Next investigation**
-Compare payment failures before and after the latest mobile release.
-
-## V0 scope
-
-* One CSV dataset
-* One business metric
-* Period-over-period comparison
-* Segment analysis
-* Python + pandas calculations
-* AI explanation grounded in calculated evidence
-* Simple Streamlit UI
-
-No database. No authentication. No complex multi-agent setup.
-
-## Product principles
-
-**Evidence before explanation.**
-Every conclusion should trace back to data.
-
-**Facts ≠ hypotheses.**
-The UI should make the distinction obvious.
-
-**Correlation ≠ causation.**
-Trace should not claim more than the data supports.
-
-**Show uncertainty.**
-If the evidence is weak, say so.
-
-**End with action.**
-The user should know what to investigate next.
-
-## Why I'm building this
-
-Across enterprise costing, manufacturing, AI troubleshooting, and fraud products, I kept encountering a similar problem:
-
-**The data exists, but understanding why something happened still requires investigation.**
-
-Trace is my exploration of how AI agents can make that investigation faster while keeping the reasoning grounded and explainable.
-
-## Build log
-
-### V0 — Product definition
-
-* Defined the user problem.
-* Defined Signal → Evidence → Hypothesis → Investigation.
-* Added grounding and causality guardrails.
-* Narrowed the MVP to one dataset and one metric.
-
-### Next
-
-Build a synthetic dataset with a known underlying problem and see whether Trace can correctly uncover it.
-
----
-
-## Related work
-
-**Manufacturing Cost Intelligence** — AI explainability for complex cost and WIP movements.
-
-**Cost Processor Troubleshooting Agent** — Agent + knowledge retrieval for enterprise troubleshooting.
-
-**Real-Time Fraud Detection** — ML-driven transaction risk scoring and decisioning.
+Create a **new, separate repository** for BidLens. Do not modify the existing portfolio repository. Never commit API keys, private supplier documents, or the local SQLite database.

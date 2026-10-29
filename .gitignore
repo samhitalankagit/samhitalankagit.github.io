@@ -1,5 +1,6 @@
-# Cloudflare / local development secrets
-costlens-api/.dev.vars*
-costlens-api/.env*
-node_modules/
-.wrangler/
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.streamlit/secrets.toml
+data/bidlens.db
