@@ -1,0 +1,32 @@
+[
+  {
+    "id": "SUP-A",
+    "name": "Deccan Packaging (Sample)",
+    "format": "Excel workbook",
+    "file": "supplier_a_deccan_packaging.xlsx"
+  },
+  {
+    "id": "SUP-B",
+    "name": "Charminar Boxes (Sample)",
+    "format": "PDF quote",
+    "file": "supplier_b_charminar_boxes.pdf"
+  },
+  {
+    "id": "SUP-C",
+    "name": "Musi Cartons (Sample)",
+    "format": "Scanned image",
+    "file": "supplier_c_musi_cartons_scan.png"
+  },
+  {
+    "id": "SUP-D",
+    "name": "Metro Pack Hyderabad (Sample)",
+    "format": "Email response",
+    "file": "supplier_d_metro_pack.eml"
+  },
+  {
+    "id": "SUP-E",
+    "name": "Telangana Box Works (Sample)",
+    "format": "Word document",
+    "file": "supplier_e_telanganaboxworks.docx"
+  }
+]
