@@ -1,24 +1,11 @@
-BIDLENS — SIMPLE THREE-SCREEN VERSION
+BIDLENS - START HERE (WINDOWS)
 
-1. Extract this ZIP into a new folder.
-2. Double-click Run_BidLens_Windows.bat.
-3. Wait for Streamlit to open in your browser.
-4. Use the three screens in the left sidebar:
-   1 · Refine requirement
-   2 · Missing information
-   3 · Supplier comparison & chat
+1. Extract this entire folder somewhere easy to find, such as Downloads.
+2. Make sure Python 3.11 or 3.12 is installed on your computer.
+3. Double-click Run_BidLens_Windows.bat.
+4. The first launch installs the required Python packages and may take a few minutes.
+5. Your browser should open the app. If it doesn't, look at the Command Prompt window for the local URL (usually http://localhost:8501).
+6. Keep the Command Prompt window open while using BidLens. To stop the app, press Ctrl+C in that window.
 
-The first screen lets you enter free text and get a refined, editable requirement.
-The second shows supplier gaps and drafts a clarification email for review/download.
-The third shows supplier performance and answers data questions / calculates what-if scenarios.
-
-AI KEY (OPTIONAL)
-Open the AI connection expander in the left sidebar and paste your Gemini API key.
-The app tries Gemini 2.5 Flash first, with fallback model IDs. If the model API is unavailable,
-requirement review falls back to simple rule-based suggestions and the supplier comparison/chat
-still uses the local data calculations. Do not paste confidential supplier data into a free API.
-
-IMPORTANT
-- All suppliers, prices, and source documents are fictional demo data.
-- Emails are drafted for review and download; they are never sent automatically.
-- Missing prices/charges remain unknown, not zero.
+This package includes the demo data and source documents. It is separate from your portfolio repository.
+The demo suppliers and quotes are fictional. No supplier emails are sent.

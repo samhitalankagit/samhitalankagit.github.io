@@ -354,80 +354,7 @@ def deterministic_answer(question: str, quotes: pd.DataFrame, items: pd.DataFram
 
 
 def llm_enabled() -> bool:
-    return bool(os.getenv("GEMINI_API_KEY") or os.getenv("OPENAI_API_KEY"))
-
-def _llm_client():
-    """OpenAI-compatible client for Gemini free-tier API or OpenAI API."""
-    from openai import OpenAI
-    gemini_key = os.getenv("GEMINI_API_KEY", "").strip()
-    if gemini_key:
-        return OpenAI(api_key=gemini_key, base_url="https://generativelanguage.googleapis.com/v1beta/openai/")
-    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-def _llm_model() -> str:
-    if os.getenv("GEMINI_API_KEY", "").strip():
-        return os.getenv("BIDLENS_GEMINI_MODEL", "gemini-2.5-flash")
-    return os.getenv("BIDLENS_MODEL", "gpt-4o-mini")
-
-def _chat_completion_with_fallback(**kwargs):
-    """Try the configured model, then compatible Gemini model IDs if this key cannot access it."""
-    client = _llm_client()
-    primary = _llm_model()
-    candidates = [primary]
-    if os.getenv("GEMINI_API_KEY", "").strip():
-        candidates.extend(["gemini-2.5-flash-lite", "gemini-2.0-flash"])
-    last_error = None
-    for model in dict.fromkeys(candidates):
-        try:
-            return client.chat.completions.create(model=model, **kwargs)
-        except Exception as exc:
-            last_error = exc
-            # Only try another model when the current model is not found/not available.
-            status = getattr(exc, "status_code", None)
-            message = str(exc).lower()
-            if status != 404 and "not found" not in message and "does not exist" not in message:
-                raise
-    raise RuntimeError(
-        "Gemini API was reached, but none of the configured model IDs were available to this API key. "
-        "Check the key at https://aistudio.google.com/apikey and confirm the selected model is available. "
-        f"Last API response: {last_error}"
-    ) from last_error
-
-def answer_procurement_question(question: str, evidence_context: str) -> str:
-    """Generate a contextual response grounded in supplied evidence and computed results."""
-    if not llm_enabled():
-        return "No AI API key is configured yet. Add a Gemini API key in the sidebar to enable conversational answers. I can still show the deterministic supplier analysis and source evidence above."
-    try:
-        response = _chat_completion_with_fallback(
-            temperature=0.2,
-            messages=[
-            {"role":"system","content":"You are BidLens, a procurement sourcing analyst. Answer the user's question using only the provided supplier evidence and calculated results. You may explain implications and propose scenarios, but do not fabricate prices, supplier terms, dates, or calculations. Treat missing prices as unknown, never zero. Preserve original currencies and price bases. If a what-if request cannot be calculated from the supplied results, explain which assumptions or data are needed and ask a concise follow-up. Cite supplier/item/source filenames where available. Be concise and actionable."},
-            {"role":"user","content":f"QUESTION:\n{question}\n\nEVIDENCE AND COMPUTED RESULTS:\n{evidence_context}"}
-        ])
-        return response.choices[0].message.content or "I couldn't generate a response. Please try rephrasing the question."
-    except Exception as exc:
-        # Do not let a model outage hide the deterministic analysis already computed by BidLens.
-        try:
-            payload = json.loads(evidence_context)
-            computed = payload.get("computed_analysis", {})
-            if computed.get("scenario_result"):
-                result = computed["scenario_result"]
-                if result.get("feasible"):
-                    return (f"I couldn't reach the language model, so here is the calculated scenario result directly. "
-                            f"Delivery limit: {computed.get('intent', {}).get('delivery_days')} days; "
-                            f"suppliers allowed: up to {computed.get('intent', {}).get('max_suppliers')}. "
-                            f"Known cost: ₹{result.get('total_known_cost', 0):,.2f}. "
-                            f"Suppliers: {', '.join(result.get('suppliers', []))}. "
-                            "This is not a complete landed-cost total; unresolved prices/charges remain excluded or flagged. "
-                            f"Technical detail: {exc}")
-                return f"The scenario engine could not find a feasible allocation. {result.get('reason', '')} Technical detail: {exc}"
-            analysis = computed.get("analysis", {})
-            answer = analysis.get("answer")
-            if answer:
-                return f"I couldn't reach the language model, so here is the data-based analysis instead: {answer} Technical detail: {exc}"
-        except Exception:
-            pass
-        raise
+    return bool(os.getenv("OPENAI_API_KEY"))
 
 
 def refine_requirement_with_llm(text: str) -> dict:
@@ -440,8 +367,9 @@ def refine_requirement_with_llm(text: str) -> dict:
         if not any(x in lowered for x in ["inr","usd","currency","price basis","per item","per unit","per 100"]): gaps.append("Specify expected currency and price basis, or ask suppliers to state both.")
         if not any(x in lowered for x in ["freight","tax","charges","additional charges"]): gaps.append("Ask suppliers to disclose freight, taxes and other charges.")
         return {"mode":"Rule-based fallback (no API key configured)","summary":"Requirement reviewed for common procurement gaps.","gaps":gaps,"questions":[]}
-    client=_llm_client()
-    response=_chat_completion_with_fallback(temperature=0,response_format={"type":"json_object"},messages=[{"role":"system","content":"You are a procurement requirement quality reviewer. Return JSON with keys summary (string), gaps (array of concise missing/ambiguous decisions), questions (array of targeted clarification questions), structured_requirement (object with items, quantities, location, delivery, commercial_terms, evaluation_criteria). Do not invent missing facts; use null for unknowns."},{"role":"user","content":text}])
+    from openai import OpenAI
+    client=OpenAI()
+    response=client.chat.completions.create(model=os.getenv("BIDLENS_MODEL","gpt-4o-mini"),temperature=0,response_format={"type":"json_object"},messages=[{"role":"system","content":"You are a procurement requirement quality reviewer. Return JSON with keys summary (string), gaps (array of concise missing/ambiguous decisions), questions (array of targeted clarification questions), structured_requirement (object with items, quantities, location, delivery, commercial_terms, evaluation_criteria). Do not invent missing facts; use null for unknowns."},{"role":"user","content":text}])
     data=json.loads(response.choices[0].message.content)
     data["mode"]="LLM-assisted; review before use"
     return data
@@ -469,8 +397,9 @@ def interpret_question(question: str, default_delivery_days: int, default_max_su
         fallback["mode"]="Rule-based intent routing"
         return fallback
     try:
-        client=_llm_client()
-        response=_chat_completion_with_fallback(temperature=0,response_format={"type":"json_object"},messages=[
+        from openai import OpenAI
+        client=OpenAI()
+        response=client.chat.completions.create(model=os.getenv("BIDLENS_MODEL","gpt-4o-mini"),temperature=0,response_format={"type":"json_object"},messages=[
             {"role":"system","content":"Classify a procurement analyst question into JSON only. Allowed intent: scenario, missing, delivery, item, price, explain, other. Keys: intent, delivery_days (integer), max_suppliers (integer 1-5), priority (cost or delivery), item_id (BX-## or null). Never answer the procurement question and do not invent supplier data. Use defaults supplied in the user message if unspecified."},
             {"role":"user","content":json.dumps({"question":question,"defaults":fallback})}
         ])
@@ -491,8 +420,9 @@ def interpret_quote_excerpt_with_llm(excerpt: str, item_id: str) -> dict:
     """Suggest candidate fields from one source excerpt; never writes reviewed values."""
     if not llm_enabled():
         return {"mode":"No LLM API key configured","candidate_fields":{},"uncertainties":["Use the extracted source excerpt and confirm fields manually. No value was changed."]}
-    client=_llm_client()
-    response=_chat_completion_with_fallback(temperature=0,response_format={"type":"json_object"},messages=[
+    from openai import OpenAI
+    client=OpenAI()
+    response=client.chat.completions.create(model=os.getenv("BIDLENS_MODEL","gpt-4o-mini"),temperature=0,response_format={"type":"json_object"},messages=[
         {"role":"system","content":"You are assisting a procurement analyst by interpreting a supplier quote excerpt. Return JSON with candidate_fields (item_id, price, currency, price_basis, delivery_days, delivery_charge, payment_terms), uncertainties (array), and evidence_text (short exact quote). Use null for fields not explicitly supported. Never guess, normalize currency, apply discounts, or convert units. This is a suggestion only and must not be considered reviewed."},
         {"role":"user","content":json.dumps({"requested_item_id":item_id,"source_excerpt":excerpt})}
     ])
